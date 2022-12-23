@@ -29,7 +29,7 @@ class _HomescreenState extends State<Homescreen> {
 
   @override
   void initState() {
-    filteredalbum = albumlist;
+    
 
     getapi();
 
