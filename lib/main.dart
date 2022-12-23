@@ -5,32 +5,23 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> main() async {
 
-  WidgetsFlutterBinding.ensureInitialized();
-          SharedPreferences pref = await SharedPreferences.getInstance();
-         var email = pref.getString("email");
-
-
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
+  
+  
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(debugShowCheckedModeBanner: false,
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      theme:
-      
-       ThemeData(
-        
+      theme: ThemeData(
         primarySwatch: Colors.deepPurple,
       ),
-      home:  Loginscreen(),
+      home: Loginscreen(),
     );
   }
 }
-
-
-
-

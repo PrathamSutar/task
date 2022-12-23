@@ -25,7 +25,6 @@ class _HomescreenState extends State<Homescreen> {
 
   List<dynamic> albumlist = [];
 
-  List filteredalbum = [];
 
   @override
   void initState() {
@@ -36,7 +35,6 @@ class _HomescreenState extends State<Homescreen> {
     super.initState();
   }
 
-  filterdata(value) {}
 
   getapi() async {
     albumlist = (await apiservice().getapi());
