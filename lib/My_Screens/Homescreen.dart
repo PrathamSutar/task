@@ -1,5 +1,6 @@
-import 'dart:convert';
 
+
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -9,32 +10,42 @@ import 'package:flutter_task/model/model.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
+
 class Homescreen extends StatefulWidget {
-  const Homescreen({super.key});
+  Homescreen({
+    super.key,
+  });
 
   @override
   State<Homescreen> createState() => _HomescreenState();
 }
 
 class _HomescreenState extends State<Homescreen> {
+
+  
   TextEditingController searchc = TextEditingController();
+
   bool isloading = true;
   bool swich = false;
   ThemeData dark = ThemeData(brightness: Brightness.dark);
   ThemeData light = ThemeData(brightness: Brightness.light);
 
   List<dynamic> albumlist = [];
-
+  
+  
+  
+  
+  
+  
 
   @override
   void initState() {
-    
-
     getapi();
+  
+    
 
     super.initState();
   }
-
 
   getapi() async {
     albumlist = (await apiservice().getapi());
@@ -42,17 +53,21 @@ class _HomescreenState extends State<Homescreen> {
       setState(() {
         isloading = false;
       });
+      
     }
   }
 
+ 
+
   @override
   Widget build(BuildContext context) {
+    
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: swich ? dark : light,
       home: Scaffold(
         appBar: AppBar(
-          title: Text("user name"),
+          title: Text(''),
           actions: [
             Switch(
               value: swich,
@@ -89,8 +104,10 @@ class _HomescreenState extends State<Homescreen> {
                       children: [
                         Expanded(
                           child: Card(
-                              child:
-                                  Image.network(albumlist[index].url.toString(),fit: BoxFit.fill,)),
+                              child: Image.network(
+                            albumlist[index].url.toString(),
+                            fit: BoxFit.fill,
+                          )),
                         ),
                         Text(albumlist[index].title.toString())
                       ],

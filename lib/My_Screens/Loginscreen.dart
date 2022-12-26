@@ -5,8 +5,8 @@ import 'package:flutter_task/My_Screens/Homescreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Loginscreen extends StatefulWidget {
-  const Loginscreen({super.key});
 
+  const Loginscreen({super.key, });
   @override
   State<Loginscreen> createState() => _LoginscreenState();
 }
@@ -58,16 +58,26 @@ class _LoginscreenState extends State<Loginscreen> {
                   SizedBox(
                     height: 50,
                   ),
+
+
                   ElevatedButton(onPressed: () async {
 
-                    SharedPreferences pref = await SharedPreferences.getInstance();
-                    pref.setString("email", emailcntr.text);
+                    final pref = await SharedPreferences.getInstance();
+                    pref.setString("emaildata", emailcntr.text);
 
-                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-                      return
-                      Homescreen();
-                    },));
-                  }, child: Text("Log In"))
+                    final passpref = await SharedPreferences.getInstance();
+                    passpref.setString("passworddata", passwordcntr.text);
+
+                    String name = emailcntr.text;
+
+                    
+                                      
+
+
+                    Navigator.push(context, MaterialPageRoute(builder:(context) => Homescreen()));
+                    
+                  }, child: Text("LogIn"))
+                
                 ],
               ),
             )
