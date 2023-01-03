@@ -5,8 +5,9 @@ import 'package:flutter_task/My_Screens/Homescreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Loginscreen extends StatefulWidget {
-
-  const Loginscreen({super.key, });
+  const Loginscreen({
+    super.key,
+  });
   @override
   State<Loginscreen> createState() => _LoginscreenState();
 }
@@ -16,6 +17,18 @@ class _LoginscreenState extends State<Loginscreen> {
   Widget build(BuildContext context) {
     TextEditingController emailcntr = TextEditingController();
     TextEditingController passwordcntr = TextEditingController();
+
+    Future<void> savedata(String key, String value) async {
+      SharedPreferences _pref = await SharedPreferences.getInstance();
+
+      await _pref.setString(key, value);
+    }
+
+    void saveuserdetail() async {
+      await savedata("Email", emailcntr.text);
+      await savedata("Password", passwordcntr.text);
+      print("data saved");
+    }
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -33,56 +46,41 @@ class _LoginscreenState extends State<Loginscreen> {
             SizedBox(
               height: 20,
             ),
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-              child: Column(
-                children: [
-                  TextFormField(
-                    controller: emailcntr,
-                    decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        hintText: "Email",
-                        label: Text("Enter Email")),
-                  ),
-                  SizedBox(
-                    height: 45,
-                  ),
-                  TextFormField(
-                    controller: passwordcntr,
-                    decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.blueAccent)),
-                        hintText: "Password",
-                        label: Text("Enter Password")),
-                  ),
-                  SizedBox(
-                    height: 50,
-                  ),
+            customtextfiled("Email", emailcntr, false),
+            SizedBox(
+              height: 10,
+            ),
+            customtextfiled("Password", passwordcntr, true),
+            SizedBox(
+              height: 20,
+            ),
+            ElevatedButton(
+              onPressed: () {
+                saveuserdetail();
 
-
-                  ElevatedButton(onPressed: () async {
-
-                    final pref = await SharedPreferences.getInstance();
-                    pref.setString("emaildata", emailcntr.text);
-
-                    final passpref = await SharedPreferences.getInstance();
-                    passpref.setString("passworddata", passwordcntr.text);
-
-                    String name = emailcntr.text;
-
-                    
-                                      
-
-
-                    Navigator.push(context, MaterialPageRoute(builder:(context) => Homescreen()));
-                    
-                  }, child: Text("LogIn"))
-                
-                ],
-              ),
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Homescreen(),
+                    ));
+              },
+              child: Text("LogIn"),
             )
           ],
         ),
+      ),
+    );
+  }
+
+  Widget customtextfiled(
+      String title, TextEditingController controller, bool obsecuretext) {
+    return Padding(
+      padding: EdgeInsets.all(15),
+      child: TextField(
+        controller: controller,
+        obscureText: obsecuretext,
+        decoration:
+            InputDecoration(border: OutlineInputBorder(), hintText: title),
       ),
     );
   }

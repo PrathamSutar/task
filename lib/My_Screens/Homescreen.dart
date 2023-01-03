@@ -1,5 +1,3 @@
-
-
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
@@ -9,7 +7,6 @@ import 'package:flutter_task/apicall/services.dart';
 import 'package:flutter_task/model/model.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-
 
 class Homescreen extends StatefulWidget {
   Homescreen({
@@ -21,8 +18,8 @@ class Homescreen extends StatefulWidget {
 }
 
 class _HomescreenState extends State<Homescreen> {
+  String Emailname = "";
 
-  
   TextEditingController searchc = TextEditingController();
 
   bool isloading = true;
@@ -30,21 +27,20 @@ class _HomescreenState extends State<Homescreen> {
   ThemeData dark = ThemeData(brightness: Brightness.dark);
   ThemeData light = ThemeData(brightness: Brightness.light);
 
-  List<dynamic> albumlist = [];
-  
-  
-  
-  
-  
-  
+  List<Albums> albumlist = [];
+
+  List<Albums> dummylist= [];
 
   @override
   void initState() {
     getapi();
-  
-    
-
+    getuserdetail();
     super.initState();
+  }
+
+  void getuserdetail() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    Emailname = prefs.getString("Email") ?? "";
   }
 
   getapi() async {
@@ -53,21 +49,17 @@ class _HomescreenState extends State<Homescreen> {
       setState(() {
         isloading = false;
       });
-      
     }
   }
 
- 
-
   @override
   Widget build(BuildContext context) {
-    
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: swich ? dark : light,
       home: Scaffold(
         appBar: AppBar(
-          title: Text(''),
+          title: Text("wlcome..$Emailname"),
           actions: [
             Switch(
               value: swich,
@@ -84,6 +76,23 @@ class _HomescreenState extends State<Homescreen> {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
               child: TextField(
+                onChanged: (Query) {
+                List<Albums> searchresult= albumlist.where((Element) {
+
+                  String titlename= Element.title.toString();
+
+                  bool istitlefound = titlename.contains(Query);
+
+                  return istitlefound;
+                }).toList();
+
+                setState(() {
+                  dummylist=searchresult;
+                });
+
+               
+                  
+                },
                 controller: searchc,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
@@ -95,24 +104,23 @@ class _HomescreenState extends State<Homescreen> {
             Expanded(
               child: Padding(
                 padding: EdgeInsets.symmetric(vertical: 3, horizontal: 3),
-                child: GridView.builder(
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2),
-                  itemCount: albumlist.length,
-                  itemBuilder: (context, index) {
-                    return Column(
-                      children: [
-                        Expanded(
-                          child: Card(
-                              child: Image.network(
-                            albumlist[index].url.toString(),
-                            fit: BoxFit.fill,
-                          )),
-                        ),
-                        Text(albumlist[index].title.toString())
-                      ],
-                    );
-                  },
+                child: Scrollbar(
+                  child: GridView.builder(
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2),
+                    itemCount:dummylist.length,
+                    itemBuilder: (context, index) {
+                      return Column(
+                        children: [
+                          Expanded(
+                            child: Card(
+                                child: Container(height: 20,width: 20,color: Colors.amber,)),
+                          ),
+                          Text(dummylist[index].title.toString())
+                        ],
+                      );
+                    },
+                  ),
                 ),
               ),
             )
