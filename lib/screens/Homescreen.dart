@@ -2,7 +2,6 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter_task/apicall/filter.dart';
 import 'package:flutter_task/apicall/services.dart';
 import 'package:flutter_task/model/model.dart';
 import 'package:http/http.dart' as http;
@@ -29,7 +28,7 @@ class _HomescreenState extends State<Homescreen> {
 
   List<Albums> albumlist = [];
 
-  List<Albums> dummylist= [];
+  List<Albums> dummylist = [];
 
   @override
   void initState() {
@@ -77,21 +76,17 @@ class _HomescreenState extends State<Homescreen> {
               padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
               child: TextField(
                 onChanged: (Query) {
-                List<Albums> searchresult= albumlist.where((Element) {
+                  List<Albums> searchresult = albumlist.where((Element) {
+                    String titlename = Element.title.toString();
 
-                  String titlename= Element.title.toString();
+                    bool istitlefound = titlename.contains(Query);
 
-                  bool istitlefound = titlename.contains(Query);
+                    return istitlefound;
+                  }).toList();
 
-                  return istitlefound;
-                }).toList();
-
-                setState(() {
-                  dummylist=searchresult;
-                });
-
-               
-                  
+                  setState(() {
+                    dummylist = searchresult;
+                  });
                 },
                 controller: searchc,
                 decoration: InputDecoration(
@@ -106,17 +101,19 @@ class _HomescreenState extends State<Homescreen> {
                 padding: EdgeInsets.symmetric(vertical: 3, horizontal: 3),
                 child: Scrollbar(
                   child: GridView.builder(
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2),
-                    itemCount:dummylist.length,
+                    itemCount: albumlist.length,
                     itemBuilder: (context, index) {
                       return Column(
                         children: [
                           Expanded(
                             child: Card(
-                                child: Container(height: 20,width: 20,color: Colors.amber,)),
+                                child: Container(
+                              color: Colors.amber,
+                            )),
                           ),
-                          Text(dummylist[index].title.toString())
+                          Text(albumlist[index].title.toString())
                         ],
                       );
                     },

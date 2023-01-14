@@ -3,14 +3,10 @@ import 'dart:convert';
 import '../model/model.dart';
 import 'package:http/http.dart' as http;
 
+class apiservice {
+  List<Albums> albumlist = [];
 
-class apiservice{
-
-    List<Albums> albumlist = [];
-
-
-
-Future<List<Albums>> getapi() async {
+  Future<List<Albums>> getapi() async {
     var resp = await http
         .get(Uri.parse("https://jsonplaceholder.typicode.com/photos"));
 
@@ -24,9 +20,5 @@ Future<List<Albums>> getapi() async {
     } else {
       return albumlist;
     }
-
-
-
-}
-
+  }
 }

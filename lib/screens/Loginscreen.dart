@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter_task/My_Screens/Homescreen.dart';
+import 'package:flutter_task/utils/textfildwidget.dart';
+import './Homescreen.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Loginscreen extends StatefulWidget {
@@ -46,11 +48,19 @@ class _LoginscreenState extends State<Loginscreen> {
             SizedBox(
               height: 20,
             ),
-            customtextfiled("Email", emailcntr, false),
+            textfiled(
+              controller: emailcntr,
+              obsecuretext: false,
+              title: "Email",
+            ),
             SizedBox(
               height: 10,
             ),
-            customtextfiled("Password", passwordcntr, true),
+            textfiled(
+              controller: passwordcntr,
+              title: "Password",
+              obsecuretext: true,
+            ),
             SizedBox(
               height: 20,
             ),
@@ -72,16 +82,16 @@ class _LoginscreenState extends State<Loginscreen> {
     );
   }
 
-  Widget customtextfiled(
-      String title, TextEditingController controller, bool obsecuretext) {
-    return Padding(
-      padding: EdgeInsets.all(15),
-      child: TextField(
-        controller: controller,
-        obscureText: obsecuretext,
-        decoration:
-            InputDecoration(border: OutlineInputBorder(), hintText: title),
-      ),
-    );
-  }
+  // Widget customtextfiled(
+  //     String title, TextEditingController controller, bool obsecuretext) {
+  //   return Padding(
+  //     padding: EdgeInsets.all(15),
+  //     child: TextField(
+  //       controller: controller,
+  //       obscureText: obsecuretext,
+  //       decoration:
+  //           InputDecoration(border: OutlineInputBorder(), hintText: title),
+  //     ),
+  //   );
+  // }
 }

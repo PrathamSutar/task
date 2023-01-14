@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_task/My_Screens/Homescreen.dart';
-import 'package:flutter_task/My_Screens/Loginscreen.dart';
+import './screens/Homescreen.dart';
+import './screens/Loginscreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> main() async {
@@ -10,7 +10,7 @@ Future<void> main() async {
 }
 
 class MyApp extends StatelessWidget {
-  MyApp({
+  const MyApp({
     super.key,
   });
 
